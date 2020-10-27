@@ -7,7 +7,13 @@
 </form>
 
 {% for place in places %}
-<div>{{ place.name }}</div>
+<div>
+    {{ place.name }}
+    <form action="{% url 'place_was_visited' place.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Visited</button>
+    </form>
+</div>
 {% empty %}
 <p>You have no places in your wishlist</p>
 {% endfor %}

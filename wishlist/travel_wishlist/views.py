@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Place
 from .forms import NewPlaceForm
 
@@ -26,3 +26,17 @@ def places_visited(request):
         'visited': visited
     }
     return render(request, 'travel_wishlist/visited.html', data)
+
+
+def place_was_visited(request, place_pk):
+    """
+    If this is a post request, find the place by key and set visited to true,
+    then redirect. Return 404 if not found.
+    Redirect to place_list if not a post request.
+    """
+    if request.method == 'POST':
+        place = get_object_or_404(Place, pk=place_pk)
+        place.visited = True
+        place.save()
+
+    return redirect('place_list')
