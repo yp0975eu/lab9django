@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from .models import Place
 
+
 class TestHomePage(TestCase):
     def test_load_home_page_shows_empty_list_for_empty_database(self):
         home_page_url = reverse('place_list')
@@ -12,6 +13,7 @@ class TestHomePage(TestCase):
 
 class TestWishList(TestCase):
     fixtures = ['test_places']
+
     def test_view_wishlist_contains_not_visited_places(self):
         response = self.client.get(reverse('place_list'))
         self.assertTemplateUsed(response, 'travel_wishlist/wishlist.html')
@@ -30,6 +32,7 @@ class TestVisitedPage(TestCase):
 
 class TestVisitedPlaces(TestCase):
     fixtures = ['test_places']
+
     def test_view_visitedt_contains_visited_places(self):
         response = self.client.get(reverse('places_visited'))
         self.assertTemplateUsed(response, 'travel_wishlist/visited.html')
@@ -37,4 +40,28 @@ class TestVisitedPlaces(TestCase):
         self.assertContains(response, 'Moab')
         self.assertNotContains(response, 'Tokyo')
         self.assertNotContains(response, 'New York')
+
+
+class TestAddNewPlace(TestCase):
+    def test_add_new_unvisited_place_to_wishlist(self):
+        add_place_url = reverse('place_list')
+        new_place_data = {
+            'name': 'Tokyo',
+            'visited': False
+        }
+        # make a new post request and follow redirects
+        response = self.client.post(add_place_url, new_place_data, follow=True)
+        # check for correct template
+        self.assertTemplateUsed(response, 'travel_wishlist/wishlist.html')
+
+        # check for correct data in template
+        response_places = response.context['places']
+        # should be 1 item
+        self.assertEqual(1, len(response_places))
+        toyko_response = response_places[0]
+
+        # check database contains correct data
+        tokyo_in_database = Place.objects.get(name='Tokyo', visited=False)
+
+        self.assertEqual(toyko_response, tokyo_in_database)
 
