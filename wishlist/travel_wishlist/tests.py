@@ -65,3 +65,30 @@ class TestAddNewPlace(TestCase):
 
         self.assertEqual(toyko_response, tokyo_in_database)
 
+
+class TestVisitPlace(TestCase):
+    fixtures = ['test_places']
+
+    def test_visit_place(self):
+        # get url with query string 2 - New York
+        visit_place_url = reverse('place_was_visited', args=(2, ))
+        # post request
+        response = self.client.post(visit_place_url, follow=True)
+
+        # check for correct template
+        self.assertTemplateUsed(response, 'travel_wishlist/wishlist.html')
+
+        # check resopnse doesn't contain New York
+        self.assertNotContains(response, 'New York')
+
+        # check if new york is visited
+        new_york = Place.objects.get(name='New York')
+        self.assertTrue(new_york.visited)
+
+    def test_not_visited_place(self):
+        visit_place_url = reverse('place_was_visited', args=(200, ))
+        response = self.client.post(visit_place_url, follow=True)
+        # check for 4040 status code when posting with  non existing place
+        self.assertEqual(404, response.status_code)
+
+
