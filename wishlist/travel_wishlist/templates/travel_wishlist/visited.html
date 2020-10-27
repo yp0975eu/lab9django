@@ -1,0 +1,11 @@
+<h1>Travel Wishlist</h1>
+
+{% if visited %}
+<ul>
+    {% for place in visited %}
+    <li>{{ place.name }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You have not visited any places</p>
+{% endif %}
