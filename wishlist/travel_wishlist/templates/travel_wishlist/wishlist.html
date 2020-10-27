@@ -10,10 +10,10 @@
 
 {% for place in places %}
 <div class="wishlist-place">
-    <span class="place-name ">{{ place.name }}</span>
+    <span id="place-name-{{ place.pk }}" class="place-name">{{ place.name }}</span>
     <form class="visited-form" action="{% url 'place_was_visited' place.pk %}" method="post">
         {% csrf_token %}
-        <button type="submit">Visited</button>
+        <button id="visited-button-{{ place.pk }}" type="submit">Visited</button>
     </form>
 </div>
 
