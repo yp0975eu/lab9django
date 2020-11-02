@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Place
 from .forms import NewPlaceForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def place_list(request):
     if request.method == 'POST':
         form = NewPlaceForm(request.POST)
@@ -20,6 +22,7 @@ def place_list(request):
     }
     return render(request, 'travel_wishlist/wishlist.html', data)
 
+@login_required
 def places_visited(request):
     visited = Place.objects.filter(visited=True)
     data = {
@@ -27,7 +30,7 @@ def places_visited(request):
     }
     return render(request, 'travel_wishlist/visited.html', data)
 
-
+@login_required
 def place_was_visited(request, place_pk):
     """
     If this is a post request, find the place by key and set visited to true,
