@@ -24,3 +24,8 @@ a.nav-link {
     background-color: purple;
     border: rebeccapurple;
 }
+
+.delete {
+    background-color: crimson;
+    border-color: darkred;
+}
