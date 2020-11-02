@@ -1,3 +1,9 @@
+#site-header {
+    background-image:url('../img/jtree.jpg');
+    color: white;
+    padding: 40px 0px 40px 0px;
+    text-align: center;
+}
 span.place-name {
     display: inline-block;
     width: 70%;
