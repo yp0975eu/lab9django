@@ -8,13 +8,15 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def place_list(request):
     if request.method == 'POST':
-        form = NewPlaceForm(request.POST)
-        place = form.save() # creates a new place
-        if form.is_valid():
+        form = NewPlaceForm(request.POST) # create new form from post data
+        place = form.save(commit=False) #creates a new place, dont commit when creating
+        place.user = request.user # add logged in user to place model
+        if form.is_valid(): # check against db constraints
             place.save() # saves to db
             return redirect('place_list')
 
-    places = Place.objects.filter(visited=False).order_by('name')
+    # if not post - query Place model with filters and order applied
+    places = Place.objects.filter(user=request.user).filter(visited=False).order_by('name')
     new_place_form = NewPlaceForm()
     data = {
         'places': places,
@@ -24,7 +26,7 @@ def place_list(request):
 
 @login_required
 def places_visited(request):
-    visited = Place.objects.filter(visited=True)
+    visited = Place.objects.filter(user=request.user).filter(visited=True)
     data = {
         'visited': visited
     }
