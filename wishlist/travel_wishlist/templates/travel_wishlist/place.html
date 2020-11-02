@@ -8,6 +8,10 @@
 <form class="visited-form" action="{% url 'place_was_visited' place.pk %}" method="post">
     {% csrf_token %}
     <button id="visited-button-{{ place.pk }}" type="submit">Visited</button>
-</form>
+</form> 
 {% endif %}
+<form class="visited-form" action="{% url 'delete_place' place.pk %}" method="post">
+    {% csrf_token %}
+    <button id="visited-button-{{ place.pk }}" class="delete" type="submit">Delete</button>
+</form>
 {% endblock %}

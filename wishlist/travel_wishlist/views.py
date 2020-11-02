@@ -57,3 +57,13 @@ def place(request, place_pk):
         'place': place,
     }
     return render(request, 'travel_wishlist/place.html', data)
+
+
+@login_required
+def delete_place(request, place_pk):
+    place = get_object_or_404(Place, pk=place_pk)
+    if place.user == request.user:
+        if request.method == 'POST':
+            place.delete()
+            return redirect('place_list')
+    return HttpResponseForbidden()
