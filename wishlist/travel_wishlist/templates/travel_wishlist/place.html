@@ -1,4 +1,5 @@
 {% extends 'travel_wishlist/base.html' %}
+{% load_static %}
 {% block content %}
 <h2>{{ place.name }}</h2>
 {% if place.visited %}
@@ -14,4 +15,5 @@
     {% csrf_token %}
     <button id="visited-button-{{ place.pk }}" class="delete" type="submit">Delete</button>
 </form>
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
