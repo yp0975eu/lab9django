@@ -5,7 +5,9 @@
 {% if visited %}
 <ul>
     {% for place in visited %}
-    <li>{{ place.name }}</li>
+    <li>
+        <a href="{% url 'place' place_pk=place.pk %}">{{ place.name }}</a>
+    </li>
     {% endfor %}
 </ul>
 {% else %}
