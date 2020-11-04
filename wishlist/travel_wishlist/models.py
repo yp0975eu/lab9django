@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 # Create your models here.
 
@@ -13,3 +14,14 @@ class Place(models.Model):
     def __str__(self):
         photo_str = self.photo.url if self.photo else 'no photo'
         return f'{self.pk}: {self.name}, visited? {self.visited} on {self.date_visited}\nPhoto {photo_str}'
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class TripReviewForm(forms.ModelForm):
+    class Meta:
+        model = Place
+        fields = ('notes', 'date_visited', 'photo')
+        widgets = {
+            'date_visited': DateInput()
+        }
