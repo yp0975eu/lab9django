@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Place
+from .models import Place, TripReviewForm
 from .forms import NewPlaceForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponseForbidden
 
 # Create your views here.
@@ -51,12 +52,32 @@ def place_was_visited(request, place_pk):
 
 @login_required
 def place(request, place_pk):
-    # query Place model with filters and order applied
+    # find place or return 404
     place = get_object_or_404(Place, pk=place_pk)
-    data = {
-        'place': place,
-    }
-    return render(request, 'travel_wishlist/place.html', data)
+
+    # check for if the place belongs to current user
+    if place.user != request.user:
+        return HttpResponseForbidden()
+
+    # post request
+    if request.method == 'POST':
+        # get form data to populate model (instance=place )
+        form = TripReviewForm(request.POST, request.FILES, instance=place)
+        if form.isValid():
+            form.save()
+            messages.info(request, 'Trip Information updated')
+        else:
+            messages.error(request, form.errors)
+        return redirect('place', place_pk=place_pk)
+    else: # get request
+        data = {
+            'place': place,
+        }
+        if place.visited:
+            # populate form with place model data
+            review_form = TripReviewForm(instance=place)
+            data['review_form'] = review_form
+        return render(request, 'travel_wishlist/place.html', data)
 
 
 @login_required
