@@ -12,7 +12,7 @@ from PIL import Image
 
 class TestHomePage(TestCase):
 
-    fixtures = ['users']
+    fixtures = ['test_users']
 
     def setUp(self):
         user = User.objects.get(pk=1)
@@ -27,7 +27,7 @@ class TestHomePage(TestCase):
 
 class TestWishList(TestCase):
     # Load this data into the database for all of the tests in this class
-    fixtures = ['places', 'users']
+    fixtures = ['test_places', 'test_users']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)
@@ -44,7 +44,7 @@ class TestWishList(TestCase):
 
 class TestVisitedPage(TestCase):
     # Load this data into the database for all of the tests in this class
-    fixtures = ['users']
+    fixtures = ['test_users']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)
@@ -57,7 +57,7 @@ class TestVisitedPage(TestCase):
 
 
 class TestVisitedPlaces(TestCase):
-    fixtures = ['places', 'users']
+    fixtures = ['test_places', 'test_users']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)
@@ -73,7 +73,7 @@ class TestVisitedPlaces(TestCase):
 
 
 class TestAddNewPlace(TestCase):
-    fixtures = ['users']
+    fixtures = ['test_users']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)
@@ -103,7 +103,7 @@ class TestAddNewPlace(TestCase):
 
 
 class TestVisitPlace(TestCase):
-    fixtures = ['places', 'users']
+    fixtures = ['test_places', 'test_users']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)
@@ -134,7 +134,7 @@ class TestVisitPlace(TestCase):
 
 class TestPlace(TestCase):
     # Load this data into the database for all of the tests in this class
-    fixtures = ['places', 'users']
+    fixtures = ['test_places', 'test_users']
 
     def setUp(self):
         user = User.objects.get(pk=1)
@@ -229,7 +229,7 @@ class TestPlace(TestCase):
 
 # class TestImageUpload(TestCase):
 
-#     fixtures = ['users', 'places']
+#     fixtures = ['test_users', 'places']
 
 #     def setUp(self):
 #         user = User.objects.get(pk=1)
