@@ -63,7 +63,7 @@ def place(request, place_pk):
     if request.method == 'POST':
         # get form data to populate model (instance=place )
         form = TripReviewForm(request.POST, request.FILES, instance=place)
-        if form.isValid():
+        if form.is_valid():
             form.save()
             messages.info(request, 'Trip Information updated')
         else:
