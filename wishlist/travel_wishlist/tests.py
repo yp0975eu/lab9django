@@ -163,7 +163,7 @@ class TestPlace(TestCase):
     
         self.assertContains(response, 'Tokyo') 
         self.assertContains(response, 'cool')  
-        self.assertContains(response, '2014-01-01') 
+        self.assertContains(response, 'Jan. 1, 2014') 
             
         # TODO how to test correct image is shown?
 
@@ -222,8 +222,7 @@ class TestPlace(TestCase):
         self.assertTemplateUsed(response, 'travel_wishlist/place.html')
 
         # and correct data shown on page?
-        self.assertEqual(response.content, False)
-        # self.assertContains(response, date_visited)  # new text shown
+        self.assertContains(response, 'Jan. 1, 2014')  # new text shown
        
 
 
